@@ -1,14 +1,16 @@
 package mate.academy.dao.impl;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import java.util.Optional;
+
 import mate.academy.DataProcessingException;
 import mate.academy.dao.MovieDao;
 import mate.academy.lib.Dao;
 import mate.academy.model.Movie;
 import mate.academy.util.HibernateUtil;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 @Dao
 public class MovieDaoImpl implements MovieDao {
@@ -38,9 +40,8 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public Optional<Movie> get(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // Використовуємо HQL (Hibernate Query Language)
-            Query<Movie> getMovieQuery = session.createQuery
-                    ("FROM Movie m WHERE m.id = :id", Movie.class);
+            Query<Movie> getMovieQuery = session.createQuery(
+                    "FROM Movie m WHERE m.id = :id", Movie.class);
             getMovieQuery.setParameter("id", id);
             return getMovieQuery.uniqueResultOptional();
         } catch (Exception e) {
