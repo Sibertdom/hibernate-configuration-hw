@@ -39,7 +39,7 @@ public class MovieDaoImpl implements MovieDao {
     public Optional<Movie> get(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Movie> getMovieQuery = session.createQuery(
-                    "FROM mate.academy.model.Movie m WHERE m.id = :id", Movie.class);
+                    "SELECT m FROM mate.academy.model.Movie m WHERE m.id = :id", Movie.class);
             getMovieQuery.setParameter("id", id);
             return getMovieQuery.uniqueResultOptional();
         } catch (Exception e) {
