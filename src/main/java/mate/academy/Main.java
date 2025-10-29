@@ -11,7 +11,8 @@ public class Main {
 
         MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
 
-        Movie interstellar = new Movie("Interstellar", "A team of explorers travels through a wormhole.");
+        Movie interstellar = new Movie("Interstellar",
+                "A team of explorers travels through a wormhole.");
 
         Movie addedMovie = movieService.add(interstellar);
         System.out.println("1. Added Movie: " + addedMovie);
@@ -23,4 +24,3 @@ public class Main {
 
     }
 }
-
