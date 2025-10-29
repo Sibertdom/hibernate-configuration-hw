@@ -16,8 +16,9 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public Movie add(Movie movie) {
         Transaction transaction = null;
-        // ❗ ВИКОРИСТОВУЄМО TRY-WITH-RESOURCES:
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
             session.save(movie);
             transaction.commit();
@@ -26,17 +27,19 @@ public class MovieDaoImpl implements MovieDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            // Використовуємо DataProcessingException для всіх DAO помилок
             throw new DataProcessingException("Can't insert movie " + movie, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
-        // Блок 'finally' з session.close() тепер не потрібен!
     }
 
     @Override
     public Optional<Movie> get(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Movie> getMovieQuery = session.createQuery(
-                    "FROM Movie m WHERE m.id = :id", Movie.class);
+                    "FROM mate.academy.model.Movie m WHERE m.id = :id", Movie.class);
             getMovieQuery.setParameter("id", id);
             return getMovieQuery.uniqueResultOptional();
         } catch (Exception e) {
