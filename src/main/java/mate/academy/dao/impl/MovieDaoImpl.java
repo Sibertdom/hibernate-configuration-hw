@@ -40,8 +40,8 @@ public class MovieDaoImpl implements MovieDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Movie> getMovieQuery = session.createQuery(
                     "FROM Movie m WHERE m.id = :id", Movie.class);
-            getMovieQuery.setParameter("id", id);
-            return getMovieQuery.uniqueResultOptional();
+            Movie movie = session.get(Movie.class, id);
+            return Optional.ofNullable(movie);
         } catch (Exception e) {
             throw new DataProcessingException("Can't get movie by id: " + id, e);
         }
