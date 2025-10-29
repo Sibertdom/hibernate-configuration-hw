@@ -1,7 +1,7 @@
 package mate.academy.util;
 
-import mate.academy.model.Movie;
 import mate.academy.DataProcessingException;
+import mate.academy.model.Movie;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
